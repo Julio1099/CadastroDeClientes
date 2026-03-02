@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
-public class Controller {
+public class ClienteController {
 
     @GetMapping("/boasVindas")
     public String boasVindas(){
@@ -12,6 +12,6 @@ public class Controller {
     }
 
 
-
-
+    public static class ClienteModel {
+    }
 }
