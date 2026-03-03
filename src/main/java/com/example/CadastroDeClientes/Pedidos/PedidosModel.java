@@ -15,8 +15,13 @@ public class PedidosModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "nome")
     private String nome;
+
+    @Column(name = "statusPagamento")
     private String statusPagamento;
 
     @ManyToOne
