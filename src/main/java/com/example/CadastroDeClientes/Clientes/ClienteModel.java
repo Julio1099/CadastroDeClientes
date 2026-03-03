@@ -1,5 +1,7 @@
-package com.example.CadastroDeClientes;
+package com.example.CadastroDeClientes.Clientes;
 
+import java.util.List;
+import com.example.CadastroDeClientes.Pedidos.PedidosModel;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,10 +10,14 @@ public class ClienteModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String nome;
-    String email;
-    int idade;
+    private Long id;
+    private String nome;
+    private String email;
+    private int idade;
+
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<PedidosModel> pedidos;
 
     public ClienteModel() {
     }
@@ -45,4 +51,5 @@ public class ClienteModel {
     public void setIdade(int idade) {
         this.idade = idade;
     }
+
 }
