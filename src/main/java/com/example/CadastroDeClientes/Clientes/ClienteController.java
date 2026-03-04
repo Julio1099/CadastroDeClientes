@@ -3,7 +3,7 @@ package com.example.CadastroDeClientes.Clientes;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/clientes")
 public class ClienteController {
 
     @GetMapping("/boasVindas")
@@ -12,22 +12,22 @@ public class ClienteController {
     }
 
 
-    @PostMapping("/Criar")
+    @PostMapping("/criar")
     public String criarCliente(){
         return "Cliente criado";
     }
 
-    @GetMapping("/Todos")
+    @GetMapping("/listar")
     public String mostraTodosOsClientes(){
         return "Mostrar Cliente";
     }
 
-    @GetMapping("/TodosID")
+    @GetMapping("/todosID")
     public String mostraTodosOsClientesPorId(){
         return "Mostrar Cliente por id";
     }
 
-    @PutMapping("/AlterarID")
+    @PutMapping("/alterarID")
     public String alterarClientePorId(){
         return "Alterar Cliente por id";
     }
