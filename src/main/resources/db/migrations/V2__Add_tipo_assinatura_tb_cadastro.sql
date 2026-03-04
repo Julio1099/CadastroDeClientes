@@ -1,0 +1,2 @@
+ALTER TABLE tb_cadastro
+ADD COLUMN tipo_assinatura VARCHAR(50) DEFAULT 'BASIC';
