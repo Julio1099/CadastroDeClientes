@@ -19,8 +19,8 @@ public class ClienteController {
     }
 
     @PostMapping("/criar")
-    public String criarCliente(){
-        return "Cliente criado";
+    public ClienteModel criarCliente(@RequestBody ClienteModel cliente){
+        return clienteService.cirarCliente(cliente);
     }
 
     @GetMapping("/listar")

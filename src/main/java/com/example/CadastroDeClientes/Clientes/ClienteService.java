@@ -23,6 +23,9 @@ public class ClienteService {
         return clientePorId.orElse(null);
     }
 
+    public ClienteModel cirarCliente(ClienteModel cliente){
+        return clienteRepository.save(cliente);
+    }
 
 
 
