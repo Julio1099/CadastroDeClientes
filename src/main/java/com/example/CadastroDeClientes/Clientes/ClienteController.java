@@ -1,16 +1,22 @@
 package com.example.CadastroDeClientes.Clientes;
 
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
 
+    private ClienteService clienteService;
+
+    public ClienteController(ClienteService clienteService) {
+        this.clienteService = clienteService;
+    }
+
     @GetMapping("/boasVindas")
     public String boasVindas(){
         return "Essa é a minha primeira mensagem nessa rota";
     }
-
 
     @PostMapping("/criar")
     public String criarCliente(){
@@ -18,8 +24,8 @@ public class ClienteController {
     }
 
     @GetMapping("/listar")
-    public String mostraTodosOsClientes(){
-        return "Mostrar Cliente";
+    public List<ClienteModel> listarClientes(){
+        return clienteService.listarClientes();
     }
 
     @GetMapping("/todosID")
