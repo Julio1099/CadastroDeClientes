@@ -1,9 +1,8 @@
 package com.example.CadastroDeClientes.Clientes;
-
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
@@ -16,13 +15,16 @@ public class ClienteService {
         this.clienteMapper = clienteMapper;
     }
 
-    public List<ClienteModel> listarClientes(){
-        return clienteRepository.findAll();
+    public List<ClienteDTO> listarClientes(){
+        List<ClienteModel> clientes = clienteRepository.findAll();
+        return clientes.stream()
+                .map(clienteMapper::map)
+                .collect(Collectors.toList());
     }
 
-    public ClienteModel listarClientesPorId(Long id){
+    public ClienteDTO listarClientesPorId(Long id){
         Optional<ClienteModel> clientePorId = clienteRepository.findById(id);
-        return clientePorId.orElse(null);
+        return clientePorId.map(clienteMapper::map).orElse(null);
     }
 
     public ClienteDTO cirarCliente(ClienteDTO clienteDTO){
@@ -35,17 +37,14 @@ public class ClienteService {
         clienteRepository.deleteById(id);
     }
 
-    public ClienteModel atualizarCliente(Long id, ClienteModel clienteAtualizado){
-        if (clienteRepository.existsById(id)){
+    public ClienteDTO atualizarCliente(Long id, ClienteDTO clienteDTO){
+        Optional<ClienteModel> clienteExistente = clienteRepository.findById(id);
+        if (clienteExistente.isPresent()) {
+            ClienteModel clienteAtualizado = clienteMapper.map(clienteDTO);
             clienteAtualizado.setId(id);
-            return clienteRepository.save(clienteAtualizado);
+            ClienteModel clienteSalvo = clienteRepository.save(clienteAtualizado);
+            return clienteMapper.map(clienteSalvo);
         }
         return null;
     }
-
-
-
-
-
-
 }
