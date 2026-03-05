@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 @Service
 public class ClienteService {
 
-    private ClienteRepository clienteRepository;
-    private ClienteMapper clienteMapper;
+    private final ClienteRepository clienteRepository;
+    private final ClienteMapper clienteMapper;
 
     public ClienteService(ClienteRepository clienteRepository, ClienteMapper clienteMapper) {
         this.clienteRepository = clienteRepository;
