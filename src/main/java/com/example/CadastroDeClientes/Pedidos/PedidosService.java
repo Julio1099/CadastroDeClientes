@@ -1,5 +1,6 @@
 package com.example.CadastroDeClientes.Pedidos;
 
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +10,6 @@ public class PedidosService {
 
     private final PedidosRepository pedidosRepository;
 
-    // Construtor para o Spring injetar o Repository
     public PedidosService(PedidosRepository pedidosRepository) {
         this.pedidosRepository = pedidosRepository;
     }
@@ -28,5 +28,14 @@ public class PedidosService {
 
     public void deletarPedido(Long id) {
         pedidosRepository.deleteById(id);
+    }
+
+    // NOVO MÉTODO: Para atualizar o pedido
+    public PedidosModel atualizarPedido(Long id, PedidosModel pedidoAtualizado) {
+        if (pedidosRepository.existsById(id)) {
+            pedidoAtualizado.setId(id);
+            return pedidosRepository.save(pedidoAtualizado);
+        }
+        return null;
     }
 }
