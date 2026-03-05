@@ -9,9 +9,11 @@ import java.util.Optional;
 public class ClienteService {
 
     private ClienteRepository clienteRepository;
+    private ClienteMapper clienteMapper;
 
-    public ClienteService(ClienteRepository clienteRepository) {
+    public ClienteService(ClienteRepository clienteRepository, ClienteMapper clienteMapper) {
         this.clienteRepository = clienteRepository;
+        this.clienteMapper = clienteMapper;
     }
 
     public List<ClienteModel> listarClientes(){
@@ -23,8 +25,10 @@ public class ClienteService {
         return clientePorId.orElse(null);
     }
 
-    public ClienteModel cirarCliente(ClienteModel cliente){
-        return clienteRepository.save(cliente);
+    public ClienteDTO cirarCliente(ClienteDTO clienteDTO){
+        ClienteModel cliente = clienteMapper.map(clienteDTO);
+        cliente = clienteRepository.save(cliente);
+        return clienteMapper.map(cliente);
     }
 
     public void deletarClientePorId(Long id){
