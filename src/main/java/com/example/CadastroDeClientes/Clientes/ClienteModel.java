@@ -32,6 +32,9 @@ public class ClienteModel {
     @Column(name = "idade")
     private int idade;
 
+    @Column(name = "tipo_assinatura")
+    private String tipo_assinatura;
+
     @JsonIgnore
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<PedidosModel> pedidos;
