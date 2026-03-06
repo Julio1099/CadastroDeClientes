@@ -1,5 +1,9 @@
 package com.example.CadastroDeClientes.Clientes;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +21,17 @@ public class ClienteController {
     }
 
     @GetMapping("/boasVindas")
+    @Operation(summary = "Mensagem de boas vindas", description = "Essa rota da uma mensagem de boas vindas para quem acessa ela")
     public String boasVindas(){
         return "Essa é a minha primeira mensagem nessa rota";
     }
 
     @PostMapping("/criar")
+    @Operation(summary = "Cria um novo cliente", description = "Rota cria um novo cliente e insere no banco de dados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Cliente criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro na criaçao do cliente")
+    })
     public ResponseEntity<String> criarCliente(@RequestBody ClienteDTO cliente){
         ClienteDTO novoCliente = clienteService.criarCliente(cliente);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -35,6 +45,11 @@ public class ClienteController {
     }
 
     @GetMapping("/listar/{id}")
+    @Operation(summary = "Lista o cliente por Id", description = "Rota lista um Cliente pelo seu id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente encontrado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Cliente nao encontrado")
+    })
     public ResponseEntity<ClienteDTO> listarClientePorId(@PathVariable Long id) {
         ClienteDTO cliente = clienteService.listarClientesPorId(id);
         if (cliente != null) {
@@ -45,12 +60,24 @@ public class ClienteController {
     }
 
     @PutMapping("/alterar/{id}")
-    public ResponseEntity<ClienteDTO> alterarClientePorId(@PathVariable Long id, @RequestBody ClienteDTO clienteAtualizado) {
-        ClienteDTO atualizado = clienteService.atualizarCliente(id, clienteAtualizado);
-        if (atualizado != null) {
-            return ResponseEntity.ok(atualizado);
+    @Operation(summary = "Altera o cliente por Id", description = "Rota altera um cliente pelo seu id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente alterado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Cliente não encontrado, não foi possível alterar")
+    })
+    public ResponseEntity<?> alterarClientePorId(
+            @Parameter(description = "Usuário manda o id no caminho da requisição")
+            @PathVariable Long id,
+            @Parameter(description = "Usuário manda os dados do cliente a ser atualizado no corpo da requisição")
+            @RequestBody ClienteDTO clienteAtualizado) {
+
+        ClienteDTO cliente = clienteService.atualizarCliente(id, clienteAtualizado);
+
+        if (cliente != null) {
+            return ResponseEntity.ok(cliente);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Cliente com o id: " + id + " não existe nos nossos registros");
         }
     }
 
