@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Detalhes do Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        img {
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 20px;
+            width: 150px; /* Aumentei um pouco para destaque */
+            height: 150px;
+            object-fit: cover;
+            border: 3px solid #4CAF50;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        h3 {
+            margin-top: 25px;
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn-voltar {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-voltar:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Detalhes do Cliente</h1>
+
+<div class="container">
+    <img th:src="${cliente.imgUrl}" th:alt="${cliente.nome}" />
+
+    <h2 th:text="${cliente.nome}"></h2>
+
+    <p><strong>ID:</strong> <span th:text="${cliente.id}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${cliente.email}"></span></p>
+    <p><strong>Idade:</strong> <span th:text="${cliente.idade}"></span> anos</p>
+    <p><strong>Tipo de Assinatura:</strong> <span th:text="${cliente.tipo_assinatura}"></span></p>
+
+    <h3>Histórico de Pedidos:</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Nome do Pedido</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pedido : ${cliente.pedidos}">
+            <td th:text="${pedido.nome}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(cliente.pedidos)}">
+            <td colspan="1" style="text-align: center;">Este cliente ainda não possui pedidos.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<a class="btn-voltar" th:href="@{/clientes/ui/listar}">Voltar para a lista de clientes</a>
+
+</body>
+</html>

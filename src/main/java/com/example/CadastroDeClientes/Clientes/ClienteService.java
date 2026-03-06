@@ -27,7 +27,7 @@ public class ClienteService {
         return clientePorId.map(clienteMapper::map).orElse(null);
     }
 
-    public ClienteDTO cirarCliente(ClienteDTO clienteDTO){
+    public ClienteDTO criarCliente(ClienteDTO clienteDTO){
         ClienteModel cliente = clienteMapper.map(clienteDTO);
         cliente = clienteRepository.save(cliente);
         return clienteMapper.map(cliente);
